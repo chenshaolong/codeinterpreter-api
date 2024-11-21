@@ -1,5 +1,5 @@
+import os
 from typing import Optional
-
 from langchain_core.messages import SystemMessage
 from langchain_core.pydantic_v1 import BaseSettings
 
@@ -11,23 +11,23 @@ class CodeInterpreterAPISettings(BaseSettings):
     CodeInterpreter API Config
     """
 
-    DEBUG: bool = False
+    DEBUG: bool = True
 
     # Models
     OPENAI_API_KEY: Optional[str] = None
-    AZURE_OPENAI_API_KEY: Optional[str] = None
-    AZURE_API_BASE: Optional[str] = None
-    AZURE_API_VERSION: Optional[str] = None
-    AZURE_DEPLOYMENT_NAME: Optional[str] = None
+    AZURE_OPENAI_API_KEY: Optional[str] = os.environ['AZURE_OPENAI_API_KEY']
+    AZURE_API_BASE: Optional[str] = os.environ['AZURE_API_BASE']
+    AZURE_API_VERSION: Optional[str] = '2024-08-01-preview'
+    AZURE_DEPLOYMENT_NAME: Optional[str] = 'gpt-4o'
     ANTHROPIC_API_KEY: Optional[str] = None
 
     # LLM Settings
-    MODEL: str = "gpt-3.5-turbo"
+    MODEL: str = "gpt-4o"
     TEMPERATURE: float = 0.03
     DETAILED_ERROR: bool = True
     SYSTEM_MESSAGE: SystemMessage = code_interpreter_system_message
     REQUEST_TIMEOUT: int = 3 * 60
-    MAX_ITERATIONS: int = 12
+    MAX_ITERATIONS: int = 3
     MAX_RETRY: int = 3
 
     # Production Settings

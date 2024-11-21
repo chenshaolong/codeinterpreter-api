@@ -86,6 +86,7 @@ class CodeInterpreterSession:
         return self.codebox.session_id
 
     def start(self) -> SessionStatus:
+        print('### Start Code Interpreter session...')
         status = SessionStatus.from_codebox_status(self.codebox.start())
         self.agent_executor = self._agent_executor()
         self.codebox.run(
@@ -135,8 +136,8 @@ class CodeInterpreterSession:
         ):
             self.log("Using Azure Chat OpenAI")
             return AzureChatOpenAI(
-                temperature=0.03,
-                base_url=settings.AZURE_API_BASE,
+                temperature=settings.TEMPERATURE,
+                azure_endpoint=settings.AZURE_API_BASE,
                 api_version=settings.AZURE_API_VERSION,
                 azure_deployment=settings.AZURE_DEPLOYMENT_NAME,
                 api_key=settings.AZURE_OPENAI_API_KEY,  # type: ignore
@@ -208,6 +209,7 @@ class CodeInterpreterSession:
         )
 
     def _agent_executor(self) -> AgentExecutor:
+        print('Initialize AgentExecutor...')
         return AgentExecutor.from_agent_and_tools(
             agent=self._choose_agent(),
             max_iterations=settings.MAX_ITERATIONS,
@@ -219,6 +221,7 @@ class CodeInterpreterSession:
                 chat_memory=self._history_backend(),
             ),
             callbacks=self.callbacks,
+            # handle_parsing_errors=True
         )
 
     def show_code(self, code: str) -> None:
@@ -471,6 +474,7 @@ class CodeInterpreterSession:
                 )
 
     def is_running(self) -> bool:
+        print('### Code Interpreter session is running...')
         return self.codebox.status() == "running"
 
     async def ais_running(self) -> bool:
@@ -481,12 +485,14 @@ class CodeInterpreterSession:
             print(msg)
 
     def stop(self) -> SessionStatus:
+        print('### Stop Code Interpreter session...')
         return SessionStatus.from_codebox_status(self.codebox.stop())
 
     async def astop(self) -> SessionStatus:
         return SessionStatus.from_codebox_status(await self.codebox.astop())
 
     def __enter__(self) -> "CodeInterpreterSession":
+        print('### Enter Code Interpreter session...')
         self.start()
         return self
 
@@ -496,6 +502,7 @@ class CodeInterpreterSession:
         exc_value: Optional[BaseException],
         traceback: Optional[TracebackType],
     ) -> None:
+        print('### Exit Code Interpreter Session...')
         self.stop()
 
     async def __aenter__(self) -> "CodeInterpreterSession":

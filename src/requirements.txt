@@ -1,0 +1,8 @@
+jupyter-kernel-gateway==3.0.1
+openai==1.54.5
+langchain==0.3.4
+langchain-openai==0.2.3
+langchain-core
+langchain-community
+langchain-text-splitters
+langsmith
