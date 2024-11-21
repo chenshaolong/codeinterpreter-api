@@ -1,8 +1,8 @@
 import os
 from typing import Optional
 from langchain_core.messages import SystemMessage
-from langchain_core.pydantic_v1 import BaseSettings
-
+# from langchain_core.pydantic_v1 import BaseSettings
+from pydantic_settings import BaseSettings
 from codeinterpreterapi.prompts import code_interpreter_system_message
 
 

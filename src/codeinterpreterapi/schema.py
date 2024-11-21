@@ -3,8 +3,8 @@ from typing import Any
 
 from codeboxapi.schema import CodeBoxStatus
 from langchain_core.messages import AIMessage, HumanMessage
-from langchain_core.pydantic_v1 import BaseModel
-
+# from langchain_core.pydantic_v1 import BaseModel
+from pydantic import BaseModel
 
 class File(BaseModel):
     name: str
