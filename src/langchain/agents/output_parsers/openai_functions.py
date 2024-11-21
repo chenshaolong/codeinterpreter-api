@@ -45,7 +45,8 @@ class OpenAIFunctionsAgentOutputParser(AgentOutputParser):
                     _tool_input = {}
                 else:
                     # otherwise it returns a json object
-                    _tool_input = json.loads(function_call["arguments"], strict=False)
+                    # _tool_input = json.loads(function_call["arguments"], strict=False)
+                    _tool_input = function_call["arguments"]
             except JSONDecodeError:
                 raise OutputParserException(
                     f"Could not parse tool input: {function_call} because "
